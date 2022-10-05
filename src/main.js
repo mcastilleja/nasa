@@ -27,13 +27,13 @@ const html = (json) => {
   let imgCont = document.createElement("div");
   imgCont.classList.add("img");
 
-  if (json.url.substring(0, 23) === "https://www.youtube.com") {
+  if (json.media_type === "video") {
+
     let img = document.createElement("iframe");
     img.setAttribute("src", json.url);
     img.setAttribute("title", json.title);
     img.setAttribute("frameborder", 0);
     img.setAttribute("allow", "autoplay; encrypted-media");
-    //img.setAttribute("allowfullscreen");
 
     imgCont.appendChild(img);
   } else {
