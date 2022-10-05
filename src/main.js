@@ -52,15 +52,15 @@ const html = (json) => {
 
   title.appendChild(h2);
 
-  let description = document.createElement("div");
+  /*let description = document.createElement("div");
   description.classList.add("description");
 
   let p = document.createElement("p");
-  p.innerHTML = json.explanation.substring(0, 210);
+  p.innerHTML = json.explanation.substring(0, 80);
 
-  description.appendChild(p);
+  description.appendChild(p);*/
 
-  container.append(imgCont, title, description);
+  container.append(imgCont, title);//, description);
 
   select.append(container);
 };

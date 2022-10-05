@@ -6,7 +6,7 @@
 
 body {
     font-family: arial, sans-serif;
-    background-image: url(../media/fondo-black.png);
+    background-image: url(fondo-black.png);
     background-size: cover;
     background-repeat: repeat;
     color: #fff;
