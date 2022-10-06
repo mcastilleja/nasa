@@ -61,7 +61,7 @@ section {
     padding: 10px;
 }
 
-.img-inicio{
+.img-inicio {
     width: auto;
 }
 
@@ -85,9 +85,21 @@ img {
 
 .descripcion-inicio>h1 {
     font-size: 3rem;
-    margin-bottom: 15px;   
+    margin-bottom: 15px;
 }
 
 .descripcion-inicio>p {
     font-size: 1.3rem;
+}
+
+@media only screen and (max-width: 600px) {
+    header {
+        justify-content: center;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    ul {
+        margin-top: 20px;
+    }
 }
