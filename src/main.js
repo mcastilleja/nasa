@@ -17,12 +17,18 @@ const section = document.getElementById("id");
 // Obtener información del JSON
 const getData = async (url) => {
   try {
+
     const response = await fetch(url);
     const data = await response.json();
-    return data;
+
+    if (response.ok){ 
+      return data;
+    }
+
   } catch (error) {
-    console.error(error);
-    return error;
+
+    console.log(error);
+
   }
 };
 
@@ -72,27 +78,38 @@ const html = (json) => {
   select.append(a);
 };
 
+// Años random para carga
+function generateRandomInt(min,max){
+  return Math.floor((Math.random() * (max-min)) +min);
+}
+
 // Mostrar contenido en Categorias
-const showData = async () => {
-  for (let i = 2021; i <= actualY; i++) {
-    for (let j = 9; j <= actualM; j++) {
-      if (j === actualM) {
-        for (let k = 1; k <= actualD; k++) {
-          const finalData = await getData(`${URL_APOD}${i}-${j}-${k}`);
-          if (finalData.code != 400) {
-            html(finalData);
-          }
-        }
-      } else {
-        for (let k = 1; k <= 30; k++) {
-          const finalData = await getData(`${URL_APOD}${i}-${j}-${k}`);
-          if (finalData.code != 400) {
-            html(finalData);
-          }
+const showData = async ( numberRandom ) => {
+
+  if ( numberRandom === actualY ){
+
+    for (let i = 1; i <= actualM; i++) {
+      for (let k = 1; k <= actualD; k++) {
+        const finalData = await getData(`${URL_APOD}${actualY}-${i}-${k}`);
+        if ( finalData != undefined ){
+          html(finalData);
         }
       }
     }
+
+  } else {
+
+    for (let i = 1; i <= 12; i++) {
+      for (let j = 1; j <= 30; j++) {
+        const finalData = await getData(`${URL_APOD}${numberRandom}-${i}-${j}`);
+        if ( finalData != undefined ){
+          html(finalData);
+        }
+      }
+    }
+
   }
+
 };
 
 // Armado de HTML para secciones delimitadas por fecha
@@ -136,7 +153,11 @@ const setDate = async (date) => {
 // Control de scripts por endpoints
 if( URLactual === "/categoria"){ // Unicamente se muestra en /categoria
 
-  showData();
+  let numberRandom = generateRandomInt(1995,actualY+1);
+  sessionStorage.setItem("year", numberRandom);
+
+  let sessionYear =  sessionStorage.getItem("year");
+  showData(sessionYear);
 
 } else if( URLactual.slice(0,6) === "/date=") { // Se muestra en todos los que tengan /date=
 
@@ -147,4 +168,4 @@ if( URLactual === "/categoria"){ // Unicamente se muestra en /categoria
 
   console.log("Bienvenido!!");
 
-} 
+}
