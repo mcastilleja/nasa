@@ -66,7 +66,7 @@ const html = (json) => {
 };
 
 const showData = async () => {
-  for (let i = 2022; i <= actualY; i++) {
+  for (let i = 2021; i <= actualY; i++) {
     for (let j = 9; j <= actualM; j++) {
       if (j === actualM) {
         for (let k = 1; k <= actualD; k++) {

@@ -19,11 +19,11 @@ header {
     justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
-    margin: 15px 0px;
+    margin: 20px 20px 10px 20px;
 }
 
 .logo img {
-    width: 5rem;
+    width: 7rem;
     height: auto;
     display: flex;
     justify-content: center;
@@ -46,13 +46,10 @@ li a {
     font-size: 22px;
     color: #fff;
     margin: 0px 15px;
-    /* margin-right: 5px;
-    margin-left: 5px; */
 }
 
 li a:hoover {
     color: rgba(255, 255, 255, 0.1);
-
 }
 
 section {
@@ -63,16 +60,23 @@ section {
 }
 
 .container {
-    max-width: 200px;
-    background-color: rgba(255, 255, 255, 0.1);
+    width: 300px;
+    height: 300px;
+    background-color: rgba(255, 255, 255, 0.05);
     border-radius: 5%;
-    margin: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    margin: 10px;
     padding: 10px;
     position: relative;
+}
+
+.container:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transform: scale(1.15);
 }
 
 .container iframe {
@@ -83,12 +87,19 @@ section {
 }
 
 .img>img {
-    width: 10rem;
-    height: auto;
+    width: 18rem;
+    height: 10rem;
+    object-fit: cover;
 }
 
 .title,
 .description {
     color: #fff;
     text-align: center;
+}
+
+.title {
+    width: 250px;
+    height: 50px;
+    margin-top: 10px;
 }
