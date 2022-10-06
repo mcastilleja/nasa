@@ -5,23 +5,14 @@ const app = express();
 const path = require('path');
 const home = "/../public/index.html"
 const cat = "/../public/Categoria.html"
+const section = "/../public/id.html"
 
 const port = 8080;
 
 // Rutas pagina
 app.get("/", inicio);
 app.get("/categoria", categoria);
-app.get("/:id", (req, res) => {
-
-    const articleId = req.params.id;
-
-    getArticleFromId(articleId, (error, user) => {
-        if(error) return res.status(500).send(error);
-        res.status(200).send(user);
-    });
-    console.log("el requerimiento:", req);
-    console.log("la respuesta:", res)
-})
+app.get("/date=:id", explanation);
 
 // Carpetas en el proyecto
 app.use(express.static('css'));
@@ -40,6 +31,10 @@ function inicio (req, res){
 
 function categoria (req, res){
     res.sendFile(ruta(cat));
+}
+
+function explanation (req, res){
+    res.sendFile(ruta(section));
 }
 
 // Marcador de rutas

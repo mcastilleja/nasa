@@ -1,13 +1,20 @@
 const API_KEY = "RGMnpkN48HcdryavwwP25OxOZaNqzhT3bAwDv8Pq";
 const URL_APOD = `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&date=`;
 
+// Obtiene el nombre del endpoint
+let URLactual = window.location.pathname;
+
+// Fecha actual para obtener ultimo día para cards
 let today = new Date();
 let actualD = parseInt(today.getDate());
 let actualM = parseInt(today.getMonth() + 1);
 let actualY = parseInt(today.getFullYear());
 
+// Selectores principales
 const select = document.getElementById("cards");
+const section = document.getElementById("id");
 
+// Obtener información del JSON
 const getData = async (url) => {
   try {
     const response = await fetch(url);
@@ -19,6 +26,7 @@ const getData = async (url) => {
   }
 };
 
+// Función para armado de videos Youtube
 const youtube = (json) => {
   let img = document.createElement("iframe");
     img.setAttribute("src", json.url);
@@ -28,9 +36,13 @@ const youtube = (json) => {
     return img
 }
 
+// Armado de sección Categorias
 const html = (json) => {
+  let a = document.createElement("a");
+  a.setAttribute("id", json.date);
+  a.setAttribute("href", `date=${json.date}`);
+
   let container = document.createElement("div");
-  container.setAttribute("id", json.date);
   container.classList.add("container");
 
   let imgCont = document.createElement("div");
@@ -54,23 +66,13 @@ const html = (json) => {
 
   title.appendChild(h2);
 
-  let link = document.createElement("a");
-  link.setAttribute("href", "/"+json.date);
-  link.innerHTML = "Ver mas..."
+  container.append(imgCont, title);
+  a.appendChild(container)
 
-  /*let description = document.createElement("div");
-  description.classList.add("description");
-
-  let p = document.createElement("p");
-  p.innerHTML = json.explanation.substring(0, 80);
-
-  description.appendChild(p);*/
-
-  container.append(imgCont, title, link);//, description);
-
-  select.append(container);
+  select.append(a);
 };
 
+// Mostrar contenido en Categorias
 const showData = async () => {
   for (let i = 2021; i <= actualY; i++) {
     for (let j = 9; j <= actualM; j++) {
@@ -91,14 +93,58 @@ const showData = async () => {
       }
     }
   }
-
-  return finalData;
 };
 
+// Armado de HTML para secciones delimitadas por fecha
+const dateSection = (json) => {
+  console.log(json)
 
-var URLactual = window.location.pathname;
-alert(URLactual);
+  let divDesc = document.createElement("div");
+  divDesc.classList.add("descripcion-inicio");
 
-if( URLactual === "/categoria"){
-  showData();
+  let h1 = document.createElement("h1");
+  h1.innerHTML = json.title;
+  let p = document.createElement("p");
+  p.innerHTML = json.explanation;
+
+  divDesc.append(h1,p);
+
+  let divImg = document.createElement("div");
+  divImg.classList.add("img-inicio");
+
+  if (json.media_type === "video") {
+    let img = youtube(json)
+    divImg.appendChild(img);
+  } else {
+    let img = document.createElement("img");
+    img.setAttribute("src", json.hdurl);
+    divImg.appendChild(img);
+  }
+
+  section.append(divDesc, divImg);
+
 }
+
+
+// Mostrar contenido interno de las cards
+const setDate = async (date) => {
+  const finalData = await getData(`${URL_APOD}${date}`)
+  dateSection(finalData);
+}
+
+
+// Control de scripts por endpoints
+if( URLactual === "/categoria"){ // Unicamente se muestra en /categoria
+
+  showData();
+
+} else if( URLactual.slice(0,6) === "/date=") { // Se muestra en todos los que tengan /date=
+
+  let date = URLactual.slice(6);
+  setDate(date);
+
+} else if ( URLactual === "/") { // Unicamente en la raiz
+
+  console.log("Bienvenido!!");
+
+} 
