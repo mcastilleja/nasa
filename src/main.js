@@ -19,6 +19,15 @@ const getData = async (url) => {
   }
 };
 
+const youtube = (json) => {
+  let img = document.createElement("iframe");
+    img.setAttribute("src", json.url);
+    img.setAttribute("title", json.title);
+    img.setAttribute("frameborder", 0);
+    img.setAttribute("allow", "autoplay; encrypted-media");
+    return img
+}
+
 const html = (json) => {
   let container = document.createElement("div");
   container.setAttribute("id", json.date);
@@ -28,19 +37,12 @@ const html = (json) => {
   imgCont.classList.add("img");
 
   if (json.media_type === "video") {
-
-    let img = document.createElement("iframe");
-    img.setAttribute("src", json.url);
-    img.setAttribute("title", json.title);
-    img.setAttribute("frameborder", 0);
-    img.setAttribute("allow", "autoplay; encrypted-media");
-
+    let img = youtube(json)
     imgCont.appendChild(img);
   } else {
     let img = document.createElement("img");
     img.setAttribute("src", json.url);
     img.setAttribute("alt", json.title);
-
     imgCont.appendChild(img);
   }
 
@@ -52,6 +54,10 @@ const html = (json) => {
 
   title.appendChild(h2);
 
+  let link = document.createElement("a");
+  link.setAttribute("href", "/"+json.date);
+  link.innerHTML = "Ver mas..."
+
   /*let description = document.createElement("div");
   description.classList.add("description");
 
@@ -60,7 +66,7 @@ const html = (json) => {
 
   description.appendChild(p);*/
 
-  container.append(imgCont, title);//, description);
+  container.append(imgCont, title, link);//, description);
 
   select.append(container);
 };
@@ -89,4 +95,10 @@ const showData = async () => {
   return finalData;
 };
 
-showData();
+
+var URLactual = window.location.pathname;
+alert(URLactual);
+
+if( URLactual === "/categoria"){
+  showData();
+}

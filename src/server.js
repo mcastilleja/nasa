@@ -11,6 +11,17 @@ const port = 8080;
 // Rutas pagina
 app.get("/", inicio);
 app.get("/categoria", categoria);
+app.get("/:id", (req, res) => {
+
+    const articleId = req.params.id;
+
+    getArticleFromId(articleId, (error, user) => {
+        if(error) return res.status(500).send(error);
+        res.status(200).send(user);
+    });
+    console.log("el requerimiento:", req);
+    console.log("la respuesta:", res)
+})
 
 // Carpetas en el proyecto
 app.use(express.static('css'));
