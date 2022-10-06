@@ -5,7 +5,7 @@
 }
 
 body {
-    font-family: arial, sans-serif;
+    font-family: 'Courier New', Courier, monospace;
     background-image: url(fondo-black.png);
     background-size: 100%;
     background-repeat: repeat;
