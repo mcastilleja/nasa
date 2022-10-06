@@ -19,7 +19,7 @@ header {
     justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
-    padding: 20px 20px 10px 20px;
+    margin: 15px 0px;
 }
 
 a {
@@ -27,7 +27,7 @@ a {
 }
 
 .logo img {
-    width: 7rem;
+    width: 6rem;
     height: auto;
     display: flex;
     justify-content: center;
