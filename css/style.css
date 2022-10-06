@@ -19,7 +19,7 @@ header {
     justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
-    margin: 15px 0px;
+    padding: 20px 20px;
 }
 
 a {
