@@ -145,3 +145,24 @@ section {
         width: 400px;
     }
 }
+
+div#loading {
+    width: 100px;
+    height: 100px;
+    position: fixed;
+    top: 44%;
+    left: 48%;
+    border-radius: 50%;
+    display: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+img#img-loading {
+    width: 182px;
+    height: auto;
+    border-radius: 50%;
+    position: relative;
+    left: -40px;
+    top: -40px;
+}
