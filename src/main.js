@@ -1,8 +1,6 @@
 const API_KEY = "RGMnpkN48HcdryavwwP25OxOZaNqzhT3bAwDv8Pq";
-const URL_APOD = `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&date=`;
-
-// Obtiene el nombre del endpoint
-let URLactual = window.location.pathname;
+const URL_APOD = `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&count=`;
+const URL_APOD_DATE = `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&date=`;
 
 // Fecha actual para obtener ultimo día para cards
 let today = new Date();
@@ -10,9 +8,29 @@ let actualD = parseInt(today.getDate());
 let actualM = parseInt(today.getMonth() + 1);
 let actualY = parseInt(today.getFullYear());
 
+// Obtiene el nombre del endpoint
+let URLactual = window.location.pathname;
+
 // Selectores principales
 const select = document.getElementById("cards");
 const section = document.getElementById("id");
+
+let numberCards = 15;
+let ultimaCard;
+
+// Observador
+let observador = new IntersectionObserver( ( entradas, observador ) => {
+  entradas.forEach(entradas => {
+    if(entradas.isIntersecting){
+      numberCards = 0
+      numberCards += 15;
+      showData(numberCards)
+    }
+  })
+}, {
+  rootMargin: '0px 0px 0px 0px',
+  threshold: 1.0
+});
 
 
 // Obtener información del JSON
@@ -21,11 +39,8 @@ const getData = async (url) => {
 
     const response = await fetch(url);
     const data = await response.json();
-
-    if (response.ok){ 
-      return data;
-    }
-
+    return data;
+    
   } catch (error) {
 
     console.log(error);
@@ -45,6 +60,7 @@ const youtube = (json) => {
 
 // Armado de sección Categorias
 const html = (json) => {
+
   let a = document.createElement("a");
   a.setAttribute("id", json.date);
   a.setAttribute("href", `date=${json.date}`);
@@ -79,43 +95,36 @@ const html = (json) => {
   select.append(a);
 };
 
-// Años random para carga
-function generateRandomInt(min,max){
-  return Math.floor((Math.random() * (max-min)) +min);
-}
 
 // Mostrar contenido en Categorias
-const showData = async ( numberRandom ) => {
-
-  if ( numberRandom === actualY ){
-
-    for (let i = 1; i <= actualM; i++) {
-      for (let k = 1; k <= actualD; k++) {
-        const finalData = await getData(`${URL_APOD}${actualY}-${i}-${k}`);
-        if ( finalData != undefined ){
-          html(finalData);
+const showData = async ( count/*, year*/ ) => {
+        /*if(year != actualY ){*/
+          const finalData = await getData(`${URL_APOD}${count}`);//&start_date=${year}-01-01&end_date=${year}-12-31`);
+          for(let i = 0; i < count; i++){
+            if( finalData[i].url != undefined ){
+              html(finalData[i]);
+            }
+          }
+        /*} else {
+          const finalData = await getData(`${URL_APOD}${count}`);//&start_date=${year}-01-01&end_date=${year}-${actualM}-${actualD}`);
+          for(let i = 0; i < count; i++){
+            if( finalData[i].url != undefined ){
+              html(finalData[i]);
+            }
+          }
+        }*/
+          
+        if(ultimaCard){
+          observador.unobserve(ultimaCard);
         }
-      }
-    }
 
-  } else {
-
-    for (let i = 1; i <= 12; i++) {
-      for (let j = 1; j <= 30; j++) {
-        const finalData = await getData(`${URL_APOD}${numberRandom}-${i}-${j}`);
-        if ( finalData != undefined ){
-          html(finalData);
-        }
-      }
-    }
-
-  }
-
+        const cardScreen = document.querySelectorAll('#cards .container');
+        ultimaCard = cardScreen[cardScreen.length - 14]; // Cambiar ultimo visible
+        observador.observe(ultimaCard)
 };
 
 // Armado de HTML para secciones delimitadas por fecha
 const dateSection = (json) => {
-  console.log(json)
 
   let divDesc = document.createElement("div");
   divDesc.classList.add("descripcion-inicio");
@@ -125,18 +134,32 @@ const dateSection = (json) => {
   let p = document.createElement("p");
   p.innerHTML = json.explanation;
 
-  divDesc.append(h1,p);
+  let date = document.createElement("div");
+  date.classList.add("fechaFoto");
+  date.innerHTML = json.date;
+
+  divDesc.append(h1, p, date);
 
   let divImg = document.createElement("div");
   divImg.classList.add("img-inicio");
 
+  
+  let copyR = document.createElement("div");
+  copyR.classList.add("copyright");
+  if ( json.copyright != undefined ){
+    copyR.innerHTML = `©CopyRight ${json.copyright}`;
+  } else {
+    copyR.innerHTML = '';
+  }
+  
+
   if (json.media_type === "video") {
     let img = youtube(json)
-    divImg.appendChild(img);
+    divImg.append(img, copyR);
   } else {
     let img = document.createElement("img");
     img.setAttribute("src", json.hdurl);
-    divImg.appendChild(img);
+    divImg.append(img, copyR);
   }
 
   section.append(divDesc, divImg);
@@ -146,15 +169,20 @@ const dateSection = (json) => {
 
 // Mostrar contenido interno de las cards
 const setDate = async (date) => {
-  const finalData = await getData(`${URL_APOD}${date}`)
+  const finalData = await getData(`${URL_APOD_DATE}${date}`)
   dateSection(finalData);
 }
 
 
+// Años random para carga
+function generateRandomInt(min,max){
+  return Math.floor((Math.random() * (max-min)) +min);
+}
+
 // Control de scripts por endpoints
 if( URLactual === "/categoria"){ // Unicamente se muestra en /categoria
 
-  let numberRandom = generateRandomInt(1995,actualY+1);
+  /*let numberRandom = generateRandomInt(1995,actualY+1);
 
   if ( sessionStorage.getItem("proyect") === null){
     sessionStorage.setItem("year", numberRandom);
@@ -162,8 +190,9 @@ if( URLactual === "/categoria"){ // Unicamente se muestra en /categoria
   
   sessionStorage.setItem("proyect", "nasa");
 
-  let sessionYear =  sessionStorage.getItem("year");
-  showData(sessionYear);
+  let sessionYear =  sessionStorage.getItem("year");*/
+
+  showData(numberCards);//, sessionYear);
 
 } else if( URLactual.slice(0,6) === "/date=") { // Se muestra en todos los que tengan /date=
 
@@ -171,7 +200,11 @@ if( URLactual === "/categoria"){ // Unicamente se muestra en /categoria
   setDate(date);
 
 } else if ( URLactual === "/") { // Unicamente en la raiz
-  console.log(sessionStorage.getItem("proyect"));
+
   console.log("Bienvenido!!");
 
 }
+
+window.addEventListener('DOMContentLoaded', (event) => {
+  console.log('DOM fully loaded and parsed');
+});
