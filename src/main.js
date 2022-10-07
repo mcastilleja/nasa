@@ -14,6 +14,7 @@ let actualY = parseInt(today.getFullYear());
 const select = document.getElementById("cards");
 const section = document.getElementById("id");
 
+
 // Obtener información del JSON
 const getData = async (url) => {
   try {
@@ -154,7 +155,12 @@ const setDate = async (date) => {
 if( URLactual === "/categoria"){ // Unicamente se muestra en /categoria
 
   let numberRandom = generateRandomInt(1995,actualY+1);
-  sessionStorage.setItem("year", numberRandom);
+
+  if ( sessionStorage.getItem("proyect") === null){
+    sessionStorage.setItem("year", numberRandom);
+  }
+  
+  sessionStorage.setItem("proyect", "nasa");
 
   let sessionYear =  sessionStorage.getItem("year");
   showData(sessionYear);
@@ -165,7 +171,7 @@ if( URLactual === "/categoria"){ // Unicamente se muestra en /categoria
   setDate(date);
 
 } else if ( URLactual === "/") { // Unicamente en la raiz
-
+  console.log(sessionStorage.getItem("proyect"));
   console.log("Bienvenido!!");
 
 }
