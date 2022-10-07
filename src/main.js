@@ -62,6 +62,7 @@ const html = (json) => {
     let img = document.createElement("img");
     img.setAttribute("src", json.url);
     img.setAttribute("alt", json.title);
+    img.setAttribute("loading", "lazy");
     imgCont.appendChild(img);
   }
 
@@ -136,6 +137,7 @@ const dateSection = (json) => {
   } else {
     let img = document.createElement("img");
     img.setAttribute("src", json.hdurl);
+    img.setAttribute("loading", "lazy");
     divImg.appendChild(img);
   }
 
