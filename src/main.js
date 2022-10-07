@@ -2,6 +2,10 @@ const API_KEY = "RGMnpkN48HcdryavwwP25OxOZaNqzhT3bAwDv8Pq";
 const URL_APOD = `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&count=`;
 const URL_APOD_DATE = `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&date=`;
 
+// Loading
+const load = document.getElementById('loading');
+
+
 // Fecha actual para obtener ultimo día para cards
 let today = new Date();
 let actualD = parseInt(today.getDate());
@@ -32,19 +36,25 @@ let observador = new IntersectionObserver( ( entradas, observador ) => {
   threshold: 1.0
 });
 
+const loading = () => {
+  load.style.display = 'block';
+}
+
+const hideLoad = () => {
+  load.style.display = 'none';
+}
 
 // Obtener información del JSON
 const getData = async (url) => {
   try {
-
+    loading();
     const response = await fetch(url);
     const data = await response.json();
     return data;
-    
   } catch (error) {
-
     console.log(error);
-
+  } finally {
+    hideLoad();
   }
 };
 
