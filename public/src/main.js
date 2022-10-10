@@ -170,7 +170,7 @@ const dateSection = (json) => {
   let copyR = document.createElement("div");
   copyR.classList.add("copyright");
   if (json.copyright != undefined) {
-    copyR.innerHTML = `©CopyRight ${json.copyright}`;
+    copyR.innerHTML = `ⒸCopyRight, ${json.copyright}`;
   } else {
     copyR.innerHTML = "";
   }
