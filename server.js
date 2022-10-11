@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
-const port = 8080;
+const PORT = process.env.PORT || 3030;
+
 const ruta = `${__dirname}/public/`
 
 // Rutas pagina
@@ -20,4 +21,4 @@ app.use(express.static( ruta + "src"));
 app.use(express.static( ruta + "media"));
 
 // Puerto del express
-app.listen(port);
+app.listen(PORT);
