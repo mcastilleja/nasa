@@ -1,3 +1,7 @@
+:root {
+    --white: #fff;
+  }
+
 * {
     margin: 0;
     padding: 0;
@@ -19,7 +23,7 @@ header {
     align-items: center;
     flex-wrap: wrap;
     padding: 20px 20px;
-    color: #fff;
+    color: var(--white);
 }
 
 a {
@@ -44,7 +48,7 @@ ul {
 li a {
     text-decoration: none;
     font-size: 22px;
-    color: #fff;
+    color: var(--white);
     margin: 0px 15px;
 }
 
@@ -92,7 +96,7 @@ section {
 
 .title,
 .description {
-    color: #fff;
+    color: var(--white);
     text-align: center;
 }
 
@@ -101,18 +105,6 @@ section {
     height: 50px;
     margin-top: 10px;
     font-size: small;
-}
-
-@media only screen and (max-width: 600px) {
-    header {
-        justify-content: center;
-    }
-}
-
-@media only screen and (max-width: 330px) {
-    ul {
-        margin-top: 20px;
-    }
 }
 
 div#loading {
@@ -134,4 +126,16 @@ img#img-loading {
     position: relative;
     left: -40px;
     top: -40px;
+}
+
+@media only screen and (max-width: 600px) {
+    header {
+        justify-content: center;
+    }
+}
+
+@media only screen and (max-width: 330px) {
+    ul {
+        margin-top: 20px;
+    }
 }

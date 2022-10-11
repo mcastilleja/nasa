@@ -1,3 +1,7 @@
+:root {
+    --white: #fff;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -9,7 +13,7 @@ body {
     background-image: url(fondo-black.png);
     background-size: cover;
     background-repeat: repeat;
-    color: #fff;
+    color: var(--white);
 }
 
 header {
@@ -41,7 +45,7 @@ ul {
 li>a {
     text-decoration: none;
     font-size: 22px;
-    color: #fff;
+    color: var(--white);
     margin: 0px 15px;
 }
 
