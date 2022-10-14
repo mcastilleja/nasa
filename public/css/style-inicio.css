@@ -130,7 +130,7 @@ img#img-loading {
 .descripcion-inicio>img {
     width: 100px;
 }
-@media only screen and (max-width: 320px) {
+@media only screen and (max-width: 368px) {
     ul {
         margin-top: 15px;
     }
