@@ -130,11 +130,12 @@ img#img-loading {
 .descripcion-inicio>img {
     width: 100px;
 }
-
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 320px) {
     ul {
-        margin-top: 20px;
+        margin-top: 15px;
     }
+}
+@media only screen and (max-width: 480px) {
 
     .img-inicio {
         width: 200px;
